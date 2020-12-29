@@ -1,11 +1,11 @@
-from json.decoder import JSONDecodeError
-from user_agent import generate_navigator
-from exceptions import *
-from time import time
-from consts import *
 import requests
 import json
-
+from consts import *
+from video_dict_constructor import *
+from exceptions import *
+from json.decoder import JSONDecodeError
+from user_agent import generate_navigator
+from time import time
 
 
 VIDEO_INFO_API = "https://api.bilibili.com/x/web-interface/view?bvid={bvid}"
@@ -48,9 +48,6 @@ class UpdateVideoInfo(VideoInfoLogger):
     Takes in a video dict, get video information from api.bilibili.com
     And update the video dict(only minimum modifications on dynamics section).
     """
-    def __init__(self, video_dict: dict):
-        super().__init__(video_dict)
-    
     # Override
     def __update_data__(self) -> None:
         super().__update_data__()
@@ -59,16 +56,28 @@ class UpdateVideoInfo(VideoInfoLogger):
 
 class GetNewVideoInfo(VideoInfoLogger):
     """
-    Takes in a video dict (with only bivd field), get video information from api.bilibili.com
+    Takes in a bvid, get video information from api.bilibili.com
     And fill in all required data.
     """
-    def __init__(self, video_dict: dict):
+    def __init__(self, bvid: str):
+        video_dict = {
+            "TYPE": "VIDEO_LATEST_DATA",
+            "VERSION": "1.0",
+            "bvid": bvid
+        }
         super().__init__(video_dict)
     
     # Override
     def __update_data__(self) -> None:
-        pass
+        super().__update_data__()
+        self.video_dict = new_video_dict(self.response_dict)
+    
+    #Override
+    def run(self) -> dict:
+        super().run()
+        return self.video_dict
 
 if __name__ == "__main__":
-    cnl = VideoInfoLogger("BV1H54y1t7Fm")
-    print(cnl.run())
+    logger = GetNewVideoInfo("BV1H54y1t7Fm")
+    new_vid_dict = logger.run()
+    print (new_vid_dict)
