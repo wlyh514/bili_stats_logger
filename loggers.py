@@ -51,6 +51,7 @@ class UpdateVideoInfo(VideoInfoLogger):
     # Override
     def __update_data__(self) -> None:
         super().__update_data__()
+        update_video_dict(self.response_dict, self.video_dict)
 
 
 
@@ -59,6 +60,7 @@ class GetNewVideoInfo(VideoInfoLogger):
     Takes in a bvid, get video information from api.bilibili.com
     And fill in all required data.
     """
+    # Override
     def __init__(self, bvid: str):
         video_dict = {
             "TYPE": "VIDEO_LATEST_DATA",

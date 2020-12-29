@@ -25,7 +25,7 @@ def import_video(bvid: str)-> dict:
             "share":   video_dict["stats"]["share"],
             "like":    video_dict["stats"]["like"]
         },
-        "changelogs": []
+        "changes": []
     }
 
     return video_dict
