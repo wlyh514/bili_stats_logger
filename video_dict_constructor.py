@@ -53,6 +53,10 @@ def new_video_dict(response: dict)-> dict:
         },
 
         "dynamics": {
+            "TYPE": "VIDEO_DYNAMIC_CHANGELOG",
+            "VERSION": "1.0",
+            "bvid": response["data"]["bvid"],
+
             "start": current_timestamp,
             "end":   current_timestamp,
             "basis": {
