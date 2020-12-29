@@ -43,7 +43,7 @@ class VideoInfoLogger(object):
         self.__request__()
         self.__update_data__()
 
-class UpdateVideoInfo(VideoInfoLogger):
+class VideoUpdateLogger(VideoInfoLogger):
     """
     Takes in a video dict, get video information from api.bilibili.com
     And update the video dict(only minimum modifications on dynamics section).
@@ -55,7 +55,7 @@ class UpdateVideoInfo(VideoInfoLogger):
 
 
 
-class GetNewVideoInfo(VideoInfoLogger):
+class NewVideoLogger(VideoInfoLogger):
     """
     Takes in a bvid, get video information from api.bilibili.com
     And fill in all required data.
@@ -80,6 +80,4 @@ class GetNewVideoInfo(VideoInfoLogger):
         return self.video_dict
 
 if __name__ == "__main__":
-    logger = GetNewVideoInfo("BV1H54y1t7Fm")
-    new_vid_dict = logger.run()
-    print (new_vid_dict)
+    pass

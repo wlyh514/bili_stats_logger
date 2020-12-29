@@ -1,4 +1,4 @@
-import logger_thread
+from logger_thread import LoggerThread
 from time import sleep
 import threading
 import fileSL
@@ -33,6 +33,8 @@ class MainThread(threading.Thread):
     def run(self):
         self.active = True
         while self.active:
+            logger_thread = LoggerThread(self.bvid_to_video)
+            logger_thread.run()
             sleep(MIN_INTERVAL)
         self.__shutdown__()
 
