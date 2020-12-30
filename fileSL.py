@@ -1,4 +1,5 @@
 import json
+from os import device_encoding
 from consts import LOCAL_DATA_PATH, MAX_ACTIVE_VIDS, VIDEO_DYNAMIC_CHANGELOG_VERSION
 from util import find_all_files
 import time
@@ -7,13 +8,16 @@ import time
 def import_video(bvid: str)-> dict:
     current_timestamp = int( time.time() )
     try:
-        f = open("%sstatic/%s.json" % (LOCAL_DATA_PATH, bvid))
+        f = open(f"{LOCAL_DATA_PATH}static/{bvid}.json", "r", encoding="utf-8")
     except FileNotFoundError:
         return {"TYPE": "ERROR-FileNotFound","bvid": bvid}
-
     video_dict = json.loads(f.read())
     f.close()
     video_dict["dynamics"] = {
+        "TYPE": "VIDEO_DYNAMIC_CHANGELOG",
+        "VERSION": "1.0",
+        "bvid": video_dict["bvid"],
+
         "start": current_timestamp,
         "end":   current_timestamp,
         "basis": {
@@ -64,7 +68,7 @@ def export_video(video_dict: dict)-> None:
 
 def export_active_videos(bv_to_video: dict)-> None:
     # Export list of active videos to video_data/active_videos.txt
-    f = open(LOCAL_DATA_PATH + "active_videos.txt")
+    f = open(LOCAL_DATA_PATH + "active_videos.txt", "w")
     for bvid in bv_to_video:
         f.write(bvid + "\n")
     f.close()

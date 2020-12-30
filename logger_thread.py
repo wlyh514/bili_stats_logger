@@ -15,3 +15,4 @@ class LoggerThread(threading.Thread):
     def run(self):
         logger = VideoUpdateLogger(self.video_dict)
         logger.run()
+        logger.join()
