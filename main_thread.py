@@ -1,9 +1,10 @@
 from logger_thread import LoggerThread
-from time import sleep
+from time import sleep, time
 import threading
 import fileSL
 import databaseSL
 from consts import *
+from random import random
 
 
 # enum
@@ -33,8 +34,23 @@ class MainThread(threading.Thread):
     def run(self):
         self.active = True
         while self.active:
-            logger_thread = LoggerThread(self.bvid_to_video)
-            logger_thread.run()
+            current_timestamp = int( time() )
+            for bvid in self.bvid_to_video:
+                video = self.bvid_to_video[bvid]
+
+                if video["popularity"]["logging_end"] < current_timestamp:
+                    self.STDSL.export_video(video)
+                    del self.bvid_to_video[bvid]
+                    continue
+
+                if video["popularity"]["next_log"] == 0:
+                    video["popularity"]["next_log"] = \
+                        video["popularity"]["logging_interval"]
+                    logger_thread = LoggerThread(video)
+                    logger_thread.run()
+                    sleep(1 + random())
+                    
+
             sleep(MIN_INTERVAL)
         self.__shutdown__()
 

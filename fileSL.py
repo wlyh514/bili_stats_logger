@@ -49,8 +49,18 @@ def import_active_videos(bvid_to_video: dict)-> None:
 def import_video_changelog(bvid: str, timestamp: int)-> dict:
     pass
 
-def export_video():
-    pass
+def export_video(video_dict: dict)-> None:
+    bvid = video_dict["bvid"]
+    # Remove the dynamic part from the video dict
+    changelog = video_dict.pop("dynamics", None)
+
+    # Export the static part of a video dict
+    video_static = open(f"{LOCAL_DATA_PATH}static/{bvid}.json", "w")
+    json.dump(video_dict, video_static)
+    video_static.close()
+    
+    # Export the dynamic part of a video dict
+    export_video_changelog(changelog)
 
 def export_active_videos(bv_to_video: dict)-> None:
     # Export list of active videos to video_data/active_videos.txt
@@ -60,19 +70,7 @@ def export_active_videos(bv_to_video: dict)-> None:
     f.close()
 
     for bvid in bv_to_video:
-        # Remove the dynamic part from the video dict
-        changelog = bv_to_video.pop("dynamics", None)
-
-        # Export the static part of a video dict
-        video_static = open(f"{LOCAL_DATA_PATH}static/{bvid}.json", "w")
-        json.dump(bv_to_video[bvid], video_static)
-        video_static.close()
-        
-        # Export the dynamic part of a video dict
-        changelog["TYPE"] = "VIDEO_DYNAMIC_CHANGELOG"
-        changelog["VERSION"] = VIDEO_DYNAMIC_CHANGELOG_VERSION
-        changelog["bvid"] = bvid
-        export_video_changelog(changelog)
+        export_video(bv_to_video[bvid])
 
 def export_video_changelog(changelog: dict)-> None:
     """

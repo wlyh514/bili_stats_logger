@@ -20,6 +20,7 @@ def new_video_dict(response: dict)-> dict:
         "popularity": {
             "requested_ips" : [],
             "logging_interval": 60,
+            "next_log": 0,
             "logging_end": 1608875287
         },
 

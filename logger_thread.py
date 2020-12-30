@@ -7,12 +7,11 @@ class LoggerThread(threading.Thread):
     Updates all videos in bv_to_video dict, log all changes.  
     """
     # Override
-    def __init__(self, bv_to_video: dict) -> None:
+    def __init__(self, video_dict: dict) -> None:
         super().__init__()
-        self.bv_to_video = bv_to_video
+        self.video_dict = video_dict
 
     # Override
     def run(self):
-        for bvid in self.bv_to_video:
-            logger = VideoUpdateLogger(self.bv_to_video[bvid])
-            logger.run()
+        logger = VideoUpdateLogger(self.video_dict)
+        logger.run()
