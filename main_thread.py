@@ -16,7 +16,7 @@ class MainThread(threading.Thread):
     def __init__(self, mode: int):
         threading.Thread.__init__(self)
         self.active = False
-
+        self.sleeping = False
         if mode == FILE:
             self.STDSL = fileSL
         elif mode == DATABASE:
@@ -35,10 +35,11 @@ class MainThread(threading.Thread):
         self.active = True
         print("Logger now active...")
         while self.active:
+            self.sleeping = False
             current_timestamp = int( time() )
             for bvid in self.bvid_to_video:
                 video = self.bvid_to_video[bvid]
-
+                print (video)
                 if video["popularity"]["logging_end"] < current_timestamp:
                     self.STDSL.export_video(video)
                     del self.bvid_to_video[bvid]
@@ -51,13 +52,20 @@ class MainThread(threading.Thread):
                     logger_thread.start()
                     sleep(1 + random())
                     
-
+            self.sleeping = True
             sleep(MIN_INTERVAL)
-        self.__shutdown__()
+        self.STDSL.export_active_videos(self.bvid_to_video)
         self.exit()
 
-    def __shutdown__(self):
+    def shutdown(self):
+        print ("Now exiting logger...")
+        self.active = False
+        while not self.sleeping:
+            print ("Waiting for main thread to sleep")
+            sleep(1)
+        print ("Saving video data...")
         self.STDSL.export_active_videos(self.bvid_to_video)
+        print ("Done!")
 
 def main(mode: int):
     main_thread = MainThread(mode)
@@ -66,9 +74,8 @@ def main(mode: int):
     while True:
         cmd = input("Type Q to shutdown logger.")
         if str(cmd) == "Q":
-            main_thread.active = False
             break
-    print("Waiting for main thread to end")
+    main_thread.shutdown()
     main_thread.join()
 
 if __name__ == "__main__":

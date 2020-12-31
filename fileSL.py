@@ -31,6 +31,7 @@ def import_video(bvid: str)-> dict:
         },
         "changes": []
     }
+    video_dict["avaliable_time_intervals"].append({"start": current_timestamp, "end": current_timestamp})
 
     return video_dict
     
@@ -41,11 +42,11 @@ def import_active_videos(bvid_to_video: dict)-> None:
     except FileNotFoundError:
         return
 
-    line = f.readline()
+    line = f.readline().strip("\n")
     line_count = 1
     while line != "" and line_count < MAX_ACTIVE_VIDS:
         bvid_to_video[line] = import_video(line)
-        line = f.readline()
+        line = f.readline().strip("\n")
         line_count += 1
 
     f.close()
