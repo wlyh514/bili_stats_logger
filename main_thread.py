@@ -24,6 +24,7 @@ class MainThread(threading.Thread):
 
         self.bvid_to_video = {}
         self.__load__()
+        
     
     def __load__(self):
         """
@@ -39,16 +40,17 @@ class MainThread(threading.Thread):
             current_timestamp = int( time() )
             for bvid in self.bvid_to_video:
                 video = self.bvid_to_video[bvid]
-                print (video)
+
                 if video["popularity"]["logging_end"] < current_timestamp:
                     self.STDSL.export_video(video)
-                    del self.bvid_to_video[bvid]
+                    self.bvid_to_video[bvid] = None
                     continue
 
                 if video["popularity"]["next_log"] == 0:
                     video["popularity"]["next_log"] = \
                         video["popularity"]["logging_interval"]
                     logger_thread = LoggerThread(video)
+                    logger_thread.setName(f"logger thread for {bvid}")
                     logger_thread.start()
                     sleep(1 + random())
                     
@@ -69,14 +71,14 @@ class MainThread(threading.Thread):
 
 def main(mode: int):
     main_thread = MainThread(mode)
+    main_thread.setName("MainThread")
     main_thread.start()
-    print ("executing main loop")
+    print ("Executing main loop")
     while True:
-        cmd = input("Type Q to shutdown logger.")
+        cmd = input("Type Q to shutdown main thread.\n")
         if str(cmd) == "Q":
             break
     main_thread.shutdown()
-    main_thread.join()
 
 if __name__ == "__main__":
     main(FILE)

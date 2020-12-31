@@ -37,11 +37,8 @@ def import_video(bvid: str)-> dict:
     
 
 def import_active_videos(bvid_to_video: dict)-> None:
-    try:
-        f = open(LOCAL_DATA_PATH + "active_videos.txt")
-    except FileNotFoundError:
-        return
 
+    f = open(LOCAL_DATA_PATH + "active_videos.txt", "r")
     line = f.readline().strip("\n")
     line_count = 1
     while line != "" and line_count < MAX_ACTIVE_VIDS:
@@ -54,40 +51,44 @@ def import_active_videos(bvid_to_video: dict)-> None:
 def import_video_changelog(bvid: str, timestamp: int)-> dict:
     pass
 
-def export_video(video_dict: dict)-> None:
-    bvid = video_dict["bvid"]
-    # Remove the dynamic part from the video dict
-    changelog = video_dict.pop("dynamics", None)
-
-    # Export the static part of a video dict
-    video_static = open(f"{LOCAL_DATA_PATH}static/{bvid}.json", "w")
-    json.dump(video_dict, video_static)
-    video_static.close()
-    
-    # Export the dynamic part of a video dict
-    export_video_changelog(changelog)
 
 def export_active_videos(bv_to_video: dict)-> None:
     # Export list of active videos to video_data/active_videos.txt
     f = open(LOCAL_DATA_PATH + "active_videos.txt", "w")
     for bvid in bv_to_video:
+        if bv_to_video[bvid] == None:
+            continue
         f.write(bvid + "\n")
     f.close()
 
     for bvid in bv_to_video:
         export_video(bv_to_video[bvid])
 
+def export_video(video_dict: dict)-> None:
+    bvid = video_dict["bvid"]
+    # Remove the dynamic part from the video dict
+    changelog = video_dict.pop("dynamics", None)
+
+    # Export the static part of a video dict
+    video_static = open(f"{LOCAL_DATA_PATH}static/{bvid}.json", "w", encoding="utf-8")
+    json.dump(video_dict, video_static,ensure_ascii= False)
+    video_static.close()
+    
+    # Export the dynamic part of a video dict
+    export_video_changelog(changelog)
+
+
 def export_video_changelog(changelog: dict)-> None:
     """
-    Takes in the dynamic part of a videp dict, and export it into a json file 
+    Takes in the dynamic part of a video dict, and export it into a json file 
     under LOCAL_DATA_PATH/dynamic/bvid_start_end.json
     """
     bvid = changelog["bvid"]
     start = changelog["start"]
     end = changelog["end"]
 
-    video_dynamic = open(f"{LOCAL_DATA_PATH}dynamic/{bvid}_{start}_{end}.json", "w")
-    json.dump(changelog, video_dynamic)
+    video_dynamic = open(f"{LOCAL_DATA_PATH}dynamic/{bvid}_{start}_{end}.json", "w", encoding="utf-8")
+    json.dump(changelog, video_dynamic, ensure_ascii= False)
     video_dynamic.close()
 
 if __name__ == "__main__":

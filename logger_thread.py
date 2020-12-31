@@ -13,6 +13,7 @@ class LoggerThread(threading.Thread):
 
     # Override
     def run(self):
+        print("Logger thread running...")
         logger = VideoUpdateLogger(self.video_dict)
         logger.run()
-        self.exit()
+        print("Logger thread exited.")
