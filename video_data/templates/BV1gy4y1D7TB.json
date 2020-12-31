@@ -1,0 +1,55 @@
+{
+    "TYPE": "VIDEO_LATEST_DATA",
+    "VERSION": "1.0",
+
+    "bvid": "BV1gy4y1D7TB",
+    "timestamp": 1608875287,
+
+    "avaliable_time_intervals": [
+        {
+            "start": 1608865287,
+            "end": 1608875287
+        }
+    ],
+
+    "popularity": {
+        "requested_ips" : [],
+        "logging_interval": 60,
+        "next_log": 0,
+        "logging_end": 1608875287
+    },
+
+    "statics": {
+        "aid": 798168832,
+        "ownerid": 102774573,
+        "pubdate": 1608343200
+    },
+
+    "semi-statics": {
+        "latest": {
+            "title": "【琉芸Miruku】极乐净土中文翻唱+东方MMD",
+            "desc": "极乐净土 中文翻唱\n中文填词：琉芸Miruku\n音频修对：CoreTania\n混音：珊瑚\n翻唱：琉芸Miruku\nMMD制作：黄泉之水\n\n东方MMD，借物见结尾",
+            "pages": ["【PV】极乐净土 和谐版", "P2"],
+            "pic": "http://i0.hdslb.com/bfs/archive/1e4196b523e5b69396cde050daf6b3aa098e516d.jpg",
+            "ownerface": "http://i0.hdslb.com/bfs/face/20097029624c4ecc652eaeb5641efd130501950f.jpg"
+        },
+        "changes": [
+            {
+                "timestamp": 1608870287,
+                "field_name": "pages",
+                "old": ["【PV】极乐净土 和谐版"],
+                "new": ["【PV】极乐净土 和谐版", "P2"]
+            }
+        ]
+    },
+
+    "stats": {
+        "view": 5352,
+        "danmaku": 27,
+        "reply": 117,
+        "favorite": 172,
+        "coin": 279,
+        "share": 40,
+        "like": 866
+    }
+}

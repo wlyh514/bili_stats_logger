@@ -1,0 +1,41 @@
+{
+    "TYPE": "VIDEO_DYNAMIC_CHANGELOG",
+    "VERSION": "1.0",
+
+    "bvid": "BV1gy4y1D7TB",
+    "start": 1608865287,
+    "end": 1608875287,
+    
+    "basis": {
+        "view": 5352,
+        "danmaku": 27,
+        "reply": 117,
+        "favorite": 172,
+        "coin": 279,
+        "share": 40,
+        "like": 866
+    },
+
+    "changes": [
+        {
+            "timestamp": 1608870287,
+            "view": 10,
+            "danmaku": 2,
+            "reply": -20,
+            "favorite": 0,
+            "coin": 2,
+            "share": 4,
+            "like": 8
+        },
+        {
+            "timestamp": 1608870297,
+            "view": 10,
+            "danmaku": 0,
+            "reply": -8,
+            "favorite": 0,
+            "coin": 2,
+            "share": 1,
+            "like": -1
+        }
+    ]
+}
