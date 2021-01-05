@@ -56,18 +56,17 @@ class MainThread(threading.Thread):
                     
             self.sleeping = True
             sleep(MIN_INTERVAL)
-        self.STDSL.export_active_videos(self.bvid_to_video)
-        self.exit()
+        print ("MainThread Exited.")
 
     def shutdown(self):
         print ("Now exiting logger...")
         self.active = False
         while not self.sleeping:
-            print ("Waiting for main thread to sleep")
+            print ("Waiting for MainThread to sleep")
             sleep(1)
         print ("Saving video data...")
         self.STDSL.export_active_videos(self.bvid_to_video)
-        print ("Done!")
+        print ("Video data saved.")
 
 def main(mode: int):
     main_thread = MainThread(mode)

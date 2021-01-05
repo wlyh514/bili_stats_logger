@@ -81,7 +81,7 @@ def update_video_dict(response: dict, video_dict: dict)-> None:
     current_timestamp = int( time() )
     # Update timestamps
     video_dict["timestamp"] = current_timestamp
-    video_dict["avaliabe_time_intervals"][-1]["end"] = current_timestamp
+    video_dict["avaliable_time_intervals"][-1]["end"] = current_timestamp
     video_dict["dynamics"]["end"] = current_timestamp
 
     # Update semi-statics
